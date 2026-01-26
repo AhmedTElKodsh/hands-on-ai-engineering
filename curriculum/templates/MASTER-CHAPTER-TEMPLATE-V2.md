@@ -113,6 +113,16 @@ TEMPLATE VERSION: v2.2 (2026-01-20 - Enhanced Framework with 23 Principles)
 
 ## The Story: Why [Topic] Matters
 
+### 🗺️ Concept Map: Where We Are
+
+```mermaid
+graph TD
+    A[Previous Concept] --> B[Current Topic]
+    B --> C[Future Concept]
+    D[Problem] --> B
+    B --> E[Solution]
+```
+
 ### The Problem (Paint the Pain)
 
 ### The Naive Solution (Show What Doesn't Work)
@@ -125,7 +135,29 @@ TEMPLATE VERSION: v2.2 (2026-01-20 - Enhanced Framework with 23 Principles)
 
 ### 🔬 Try This! (Practice #1) - REQUIRED
 
+### 🔍 Error Prediction Challenge #1
+
+[Code snippet that looks correct but has a subtle bug]
+
+**Question**: What happens when you run this?
+1. Option A
+2. Option B
+3. Option C
+
+<details>
+<summary>Reveal Answer</summary>
+[Explanation]
+</details>
+
 ### Build Complexity (Add One Layer)
+
+### > 🤔 Metacognitive Checkpoint
+>
+> Stop and think:
+> 1. Why did we use X instead of Y?
+> 2. How does this connect to [Previous Concept]?
+>
+> [Brief reflection space]
 
 ### Practical Example (Real-World Use)
 

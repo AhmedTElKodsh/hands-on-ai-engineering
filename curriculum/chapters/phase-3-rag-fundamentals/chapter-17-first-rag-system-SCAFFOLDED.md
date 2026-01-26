@@ -176,12 +176,14 @@ def ask_rag(question: str, store: VectorStore, client: MultiProviderClient, limi
     3. Generates an answer using the LLM
 
     TODO: Implement this function
-    HINT: Use store.search(question, limit=limit) to retrieve relevant documents
-    HINT: Join results with "\n".join(results) to create context_text
-    HINT: Build a prompt with three parts: instructions, context, question
-    HINT: Instructions should say "Answer using ONLY the context provided"
-    HINT: Use client.generate(prompt) to get the answer
-    HINT: Print the question, found context, and answer for debugging
+    HINT 1: Use store.search(question, limit=limit) to retrieve relevant documents
+    HINT 2: Join results with "\n".join(results) to create context_text
+    HINT 3: Build augmented prompt: f"Answer using ONLY the context below.\n\nContext:\n{context_text}\n\nQuestion: {question}\n\nAnswer:"
+    HINT 4: Use client.generate(prompt) to get LLM response
+    HINT 5: Extract text from response - try response.text first, if AttributeError then use response['text']
+    HINT 5a: Example: answer = response.text if hasattr(response, 'text') else response['text']
+    HINT 6: Print debug info: question, context found, and generated answer
+    HINT 7: Return the answer string
 
     Args:
         question: User's question to answer
@@ -360,10 +362,12 @@ def search_with_sources(store: VectorStore, query: str, limit: int = 1) -> List[
     allowing users to verify where information came from.
 
     TODO: Implement this function
-    HINT: Use store.search_with_metadata(query, limit=limit) to get results with metadata
-    HINT: The method returns a list of tuples: [(doc_text, metadata_dict), ...]
-    HINT: Iterate through results and print both the document text and source
-    HINT: Format output clearly with separators for readability
+    HINT 1: Use store.search_with_metadata(query, limit=limit) to get results with metadata
+    HINT 2: The method returns a list of tuples: [(doc_text, metadata_dict), ...]
+    HINT 3: Extract texts: texts = [text for text, _ in results]
+    HINT 4: Extract metadata: sources = [metadata for _, metadata in results]
+    HINT 5: Print each result with its source for debugging
+    HINT 6: Return the full list of tuples for caller to use
 
     Args:
         store: VectorStore instance to search
@@ -475,12 +479,13 @@ def test_hallucination_prevention(client: MultiProviderClient, context: str, que
     by forcing the LLM to use only provided context.
 
     TODO: Implement this function
-    HINT: Create two prompts - one without guardrails, one with
-    HINT: Bad prompt: Just concatenate context and question
-    HINT: Good prompt: Add explicit instruction "Answer using ONLY the context"
-    HINT: Good prompt: Add fallback instruction "If not mentioned, say 'Unknown'"
-    HINT: Use client.generate() for both prompts
-    HINT: Return tuple of (bad_answer, good_answer) for comparison
+    HINT 1: Create bad prompt (no guardrails): f"{context}\n\n{question}"
+    HINT 2: Create good prompt (with guardrails): "Answer using ONLY the context below. If the answer is not in the context, say 'I don't know'.\n\nContext: {context}\n\nQuestion: {question}\n\nAnswer:"
+    HINT 3: Call client.generate(bad_prompt) to get ungrounded response
+    HINT 4: Call client.generate(good_prompt) to get grounded response
+    HINT 5: Extract text from both responses (handle response format)
+    HINT 6: Return tuple: (bad_answer, good_answer) for comparison
+    HINT 7: Print both answers to see the difference
 
     Args:
         client: LLM client instance

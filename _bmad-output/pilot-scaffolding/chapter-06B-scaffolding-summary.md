@@ -203,9 +203,11 @@ def safe_llm_call(prompt: str, api_key: str) -> Result[str]:
 
 ## Test File Requirements
 
-**File**: `tests/test_chapter_06B.py`
+**File**: `tests/test_chapter_06B.py` ✅ **COMPLETE**
 
-**Required Tests**:
+**Test Coverage**: 6 test groups with 20+ test cases
+
+**Test Groups Implemented**:
 
 1. **Test Exception Hierarchy**
 
@@ -323,11 +325,12 @@ def safe_llm_call(prompt: str, api_key: str) -> Result[str]:
 - [ ] Need to add <details> section for `safe_llm_call()`
 - [x] Other exercises already have solution references
 
-### AC4: Tests Runnable with Stub Implementations ⚠️
+### AC4: Tests Runnable with Stub Implementations ✅
 
-- [ ] Need to create `tests/test_chapter_06B.py`
-- [ ] Tests should run (even if they fail with stubs)
-- [ ] Tests have clear assertion messages
+- [x] Test file created: `tests/test_chapter_06B.py`
+- [x] Tests run with stub implementations (skip gracefully)
+- [x] Tests have clear assertion messages
+- [x] Comprehensive coverage: 6 test groups, 20+ test cases
 
 ---
 

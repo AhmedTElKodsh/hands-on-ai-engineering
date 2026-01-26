@@ -353,16 +353,17 @@ def create_report_agent() -> AgentExecutor:
     reports with embedded visualizations.
 
     TODO: Implement this function
-    HINT: Create tools list: [calculate_beam_load, calculate_safety_factor, generate_load_chart]
-    HINT: Initialize model: ChatOpenAI(model="gpt-4o-mini", temperature=0)
-    HINT: Temperature=0 ensures deterministic, factual responses
-    HINT: Create prompt with ChatPromptTemplate.from_messages([...])
-    HINT: Include system message: "You are a Structural Engineer. Create a technical report."
-    HINT: Include human message: "{input}"
-    HINT: Include placeholder: "{agent_scratchpad}" for tool execution history
-    HINT: Create agent: create_tool_calling_agent(model, tools, prompt)
-    HINT: Create executor: AgentExecutor(agent=agent, tools=tools, verbose=True)
-    HINT: Return the executor
+    HINT 1: Create tools list: [calculate_beam_load, calculate_safety_factor, generate_load_chart]
+    HINT 2: Initialize model: ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    HINT 3: Temperature=0 ensures deterministic, factual responses
+    HINT 4: Create prompt with ChatPromptTemplate.from_messages([...])
+    HINT 4a: Message structure: [("system", "system_text"), ("human", "{input}"), ("placeholder", "{agent_scratchpad}")]
+    HINT 4b: System message: "You are a Structural Engineer. Create a technical report."
+    HINT 4c: Human message uses {input} placeholder for user's task
+    HINT 4d: Placeholder {agent_scratchpad} stores tool execution history (required for agents)
+    HINT 5: Create agent: create_tool_calling_agent(model, tools, prompt)
+    HINT 6: Create executor: AgentExecutor(agent=agent, tools=tools, verbose=True)
+    HINT 7: Return the executor
 
     Returns:
         AgentExecutor: Configured agent that can generate reports
