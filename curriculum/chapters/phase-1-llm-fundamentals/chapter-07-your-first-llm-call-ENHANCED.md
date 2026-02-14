@@ -4,12 +4,12 @@
 METADATA
 Phase: Phase 1: LLM Fundamentals
 Time: 1.5 hours (45 minutes reading + 45 minutes hands-on)
-Difficulty: ⭐⭐
+Difficulty: ⭐ (Absolute Beginner)
 Type: Foundation / Implementation
 Prerequisites: Chapters 6B (Error Handling), 3 (Pydantic), 1-2 (Python Basics)
 Builds Toward: Chapters 8 (Multi-Provider), 9 (Prompt Engineering), 17 (RAG), 54 (Complete System)
 Correctness Properties: [P1: API Authentication, P2: Error Handling, P3: State Management]
-Project Thread: CEDocumentSummarizer - connects to Ch 8, 9, 17, 54
+Project Thread: DomainExpertChatbot - connects to Ch 8, 9, 17, 54
 
 NAVIGATION
 → Quick Reference: #quick-reference-card
@@ -24,56 +24,34 @@ ENHANCED VERSION: v2.2 (2026-01-21) - All 17 Tier 1-3 Enhancements Applied
 
 ## Introduction
 
-**The moment of truth has arrived.**
+**This is your "first successful AI run" chapter.**
 
-You've spent weeks learning Python, mastering error handling, and understanding configuration management. Now you're about to cross the threshold that separates traditional software engineers from AI engineers.
+You have already built strong Python fundamentals. Now you are about to connect that foundation to a real Language Model API and get useful output from your own code in minutes.
 
-**Here's what's at stake:**
+This pattern applies across domains:
 
-Your civil engineering firm just landed a $2M contract to analyze 10,000 historical building inspection reports. The client needs:
+- Summarizing customer support tickets
+- Creating study notes from long text
+- Drafting first-pass marketing copy
+- Classifying expense descriptions
+- Generating technical explanations
 
-- Summaries of each report (10,000 summaries)
-- Risk assessments for structural issues
-- Compliance checks against current building codes
-- All delivered in 3 months
+**The key shift is simple but profound:**
 
-**Your options:**
+- **Before:** Your code followed only the rules you hardcoded
+- **After:** Your code can ask a model to generate and reason
 
-**Option A: Manual Analysis**
+In this chapter, you will build the core interaction loop you will reuse throughout Phase 1:
 
-- Hire 5 engineers at $100/hour
-- Each report takes 2 hours to analyze
-- Total: 10,000 reports × 2 hours × $100 = **$2,000,000**
-- Timeline: 10,000 hours / (5 engineers × 160 hours/month) = **12.5 months**
-- **Result:** Project fails (over budget, over timeline)
+- Authenticate securely with an API key
+- Send structured messages to a model
+- Preserve conversation state across turns
+- Handle failures gracefully
+- Think in tokens (cost, latency, and context limits)
 
-**Option B: LLM-Powered Analysis**
+If you master this chapter, the next chapters become composable upgrades of the same base pattern: multi-provider routing, prompting strategies, structured outputs, retries, and optimization.
 
-- Build an automated system (1 week of engineering)
-- Cost per report: ~$0.50 (API costs)
-- Total: 10,000 reports × $0.50 = **$5,000**
-- Timeline: **1 week to build + 1 day to process**
-- **Result:** Project succeeds with 99.75% cost savings
-
-**This chapter teaches you Option B.**
-
-By the end, you'll have built the foundational component of a production-ready document analysis system: a reliable, interactive LLM client that can:
-
-- Authenticate securely with API providers
-- Handle errors gracefully (rate limits, network failures)
-- Manage conversation state (the #1 gotcha in chatbot development)
-- Process documents efficiently (token-aware design)
-
-**This isn't a toy project.** The patterns you learn here are used by companies processing millions of documents daily. You're building real infrastructure.
-
-**The transition you're making:**
-
-- **Before:** You wrote code that follows deterministic rules
-- **After:** You'll engineer systems that leverage probabilistic reasoning
-
-This shift requires understanding not just API syntax, but the fundamental concepts of tokens, roles, and state management. These aren't implementation details—they're the core of AI engineering.
-
-**Let's build something that matters.** 🚀
+**Goal for today:** make your first reliable LLM call, understand why it works, and leave with a chatbot loop you can adapt to any domain.
 
 ---
 
@@ -134,7 +112,7 @@ Phase 3: RAG Fundamentals
 ...
 ```
 
-**Expected Difficulty:** ⭐⭐ (Moderate - new concepts but clear patterns)
+**Expected Difficulty:** ⭐ (Absolute Beginner - first LLM API workflow)
 **Time Investment:** 1.5 hours (45 min reading + 45 min hands-on)
 **Prerequisites Met:** ✅ All Phase 0 chapters completed
 
@@ -1345,6 +1323,80 @@ def chat_endpoint():
 
 ---
 
+## 🔬 Try This! (Practice #2)
+
+Now let's add a production-minded safeguard to your chatbot.
+
+**Challenge:** Implement a simple token-budget guardrail so long conversations do not exceed context limits.
+
+**Requirements:**
+
+1. Add `estimate_tokens(text)` using a rough rule (`~4 chars per token`).
+2. Add `trim_messages(messages, max_tokens=2000)` that:
+   - Always keeps the system message.
+   - Keeps only the newest turns that fit the budget.
+3. Call `trim_messages(...)` right before each API call.
+4. Print a short warning whenever old messages are dropped.
+
+**Starter Code:**
+
+```python
+def estimate_tokens(text: str) -> int:
+    # TODO: return rough token estimate
+    pass
+
+def trim_messages(messages: list[dict], max_tokens: int = 2000) -> list[dict]:
+    # TODO: keep system message + newest messages under max_tokens
+    pass
+
+# Before API call:
+# messages = trim_messages(messages, max_tokens=2000)
+```
+
+<details>
+<summary>💡 Hint (click if you need help)</summary>
+
+**Level 1:** Work backward from newest messages to oldest.
+**Level 2:** Keep `messages[0]` as system, then append recent messages until budget is reached.
+**Level 3:** Use `len(content) // 4` as a rough token approximation.
+
+</details>
+
+<details>
+<summary>✅ Solution (check after you try!)</summary>
+
+```python
+def estimate_tokens(text: str) -> int:
+    return max(1, len(text) // 4)
+
+def trim_messages(messages: list[dict], max_tokens: int = 2000) -> list[dict]:
+    if not messages:
+        return messages
+
+    system_msg = messages[0]
+    kept = []
+    used = estimate_tokens(system_msg["content"])
+
+    for msg in reversed(messages[1:]):
+        msg_tokens = estimate_tokens(msg["content"])
+        if used + msg_tokens > max_tokens:
+            break
+        kept.append(msg)
+        used += msg_tokens
+
+    trimmed = [system_msg] + list(reversed(kept))
+
+    if len(trimmed) < len(messages):
+        dropped = len(messages) - len(trimmed)
+        print(f"⚠️ Trimmed {dropped} old message(s) to stay within token budget.")
+
+    return trimmed
+```
+
+</details>
+
+---
+
 ## Part 5: Handling Errors Like a Pro 🛡️
 
 In the real world, APIs fail. The internet goes down. You run out of API credits. Users type weird things. A crash in production is a nightmare.
@@ -1821,22 +1873,25 @@ def chat(self, user_input):
 
 ---
 
-## Project Thread: The Civil Engineering Chatbot
+## Project Thread: Domain Expert Chatbot (Pick Your Track)
 
-Now we will start building the **CE Document Summarizer**. Our first step is creating the interface that allows an engineer to query the system.
+Now we will build a reusable chatbot shell that you can adapt to any domain.
 
-**Objective:** Build an interactive CLI loop that acts as a domain-specific assistant.
+**Objective:** Build an interactive CLI loop with persona control and proper state management.
 
 **Specifications:**
 
-1.  **System Persona**: Define a System Message that instructs the model to act as a "Senior Civil Engineering Consultant." It should use professional terminology and prioritize safety and regulations in its answers.
-2.  **Conversation Loop**: Implement a `while` loop that:
-    - Accepts user input.
-    - Appends the user input to a `messages` list.
-    - Sends the full `messages` list to the API.
-    - Prints the response.
-    - **Crucial**: Appends the _response_ to the `messages` list (closing the state loop).
-3.  **Exit Condition**: Allow the user to type "exit" or "quit" to break the loop.
+1. **System Persona**: Define persona prompts for at least three tracks:
+   - Technical Mentor
+   - Study Coach
+   - Domain Specialist (your choice)
+2. **Conversation Loop**: Implement a `while` loop that:
+   - Accepts user input
+   - Appends user input to `messages`
+   - Sends full `messages` history to the API
+   - Prints the assistant reply
+   - Appends the assistant reply back to `messages` (critical for memory)
+3. **Exit Condition**: Support `exit` or `quit`.
 
 **Implementation:**
 
@@ -1848,76 +1903,73 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# System persona for Civil Engineering domain
-SYSTEM_PROMPT = """You are a Senior Civil Engineering Consultant with 20 years of experience in structural design, building codes, and construction management.
+SYSTEM_PROMPTS = {
+    "mentor": """You are a Technical Mentor.
+- Explain concepts clearly with short examples.
+- Ask one follow-up question when useful.
+- If uncertain, say what you do not know.""",
+    "study": """You are a Study Coach.
+- Break complex topics into small learning steps.
+- End each response with one quick practice prompt.
+- Keep explanations concise and encouraging.""",
+    "specialist": """You are a Domain Specialist.
+- Use precise professional terminology.
+- State assumptions explicitly.
+- If a request is high-risk, recommend expert verification."""
+}
 
-Your responses must:
-- Use precise technical terminology (e.g., "moment-resisting frame", "shear wall", "bearing capacity")
-- Cite relevant building codes (IBC, ASCE 7, ACI 318) when applicable
-- Prioritize safety and regulatory compliance above all else
-- Be concise but thorough (2-3 paragraphs unless asked for more detail)
-- Flag any assumptions you make about project context
-- Recommend consulting licensed professionals for critical decisions
+track = input("Choose track (mentor/study/specialist): ").strip().lower()
+if track not in SYSTEM_PROMPTS:
+    track = "mentor"
 
-If a question is outside structural/civil engineering (e.g., electrical, HVAC), clearly state this is outside your expertise."""
+messages = [{"role": "system", "content": SYSTEM_PROMPTS[track]}]
 
-# Initialize conversation with system prompt
-messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-
-print("🏗️  Civil Engineering Consultant Chatbot")
-print("=" * 50)
-print("Ask me about structural design, building codes, or construction.")
+print(f"\nAssistant track: {track}")
 print("Type 'exit' or 'quit' to end the conversation.\n")
 
 while True:
-    # Get user input
     user_input = input("You: ").strip()
 
     if user_input.lower() in ["exit", "quit"]:
-        print("\n👋 Goodbye! Stay safe and build strong!")
+        print("\nGoodbye!")
         break
 
     if not user_input:
         continue
 
-    # Add user message to history
     messages.append({"role": "user", "content": user_input})
 
     try:
-        # Send full conversation history to API
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             temperature=0.7
         )
 
-        # Extract assistant's reply
         assistant_message = response.choices[0].message.content
+        print(f"\nAssistant: {assistant_message}\n")
 
-        # Print response
-        print(f"\n🏗️  Consultant: {assistant_message}\n")
-
-        # CRITICAL: Add assistant message to history
+        # CRITICAL: Persist assistant response for memory
         messages.append({"role": "assistant", "content": assistant_message})
 
     except Exception as e:
-        print(f"\n❌ Error: {e}\n")
-        # Remove the user message we just added since we couldn't get a response
+        print(f"\nError: {e}\n")
+        # Roll back the user message if the request failed
         messages.pop()
 ```
 
 **Verification:**
-Run your chatbot.
+Run your chatbot and test memory behavior.
 
-1.  Ask it: "What are the standard concrete grades for a high-rise foundation?" (Verify technical accuracy and tone).
-2.  Then ask: "Can you summarize that list?" (Verify it remembers the previous context).
-3.  Ask: "I'm working on a bridge in California. What seismic requirements apply?" (Verify domain expertise).
+1. Ask: "Give me 3 tips for learning recursion."
+2. Ask: "Now summarize tip #2 in one sentence." (memory check)
+3. Ask a domain-specific question based on your chosen track.
 
 **Expected behavior:**
 
-- First question: Detailed technical response with code references
-- Second question: Summarizes previous response (proves memory works)
-- Third question: Caltrans-specific guidance (proves domain knowledge)
+- Turn 1 returns relevant guidance
+- Turn 2 references earlier context correctly
+- Turn 3 reflects your selected persona style
 
 ---
 
@@ -1956,7 +2008,7 @@ Rate your confidence (1-5) on each concept:
 | Conversation loop implementation | __ | |
 | Debugging state management bugs | __ | |
 
-**Now complete the Project Thread (CE Document Summarizer) above.**
+**Now complete the Project Thread (Domain Expert Chatbot) above.**
 
 ---
 
@@ -2202,7 +2254,7 @@ We've covered a massive amount of ground today. Let's recap:
 
 - ✅ Your first LLM API call
 - ✅ A stateful chatbot with memory
-- ✅ Domain-specific assistant (Civil Engineering Consultant)
+- ✅ Domain-specific assistant tailored to your chosen track
 - ✅ Error handling with retry logic
 - ✅ Understanding of token economics
 

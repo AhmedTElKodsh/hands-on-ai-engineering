@@ -1,28 +1,36 @@
-# AI Knowledge Base Curriculum Roadmap v6.1
-## Zero-to-Hero: 59 Core Chapters, 10 Phases, 78 Hours
+# AI Knowledge Base Curriculum Roadmap v7.0
+## Zero-to-Hero: 61 Core Chapters, 10 Phases, 81.5 Hours
 
-**Last Updated**: 2026-01-18
-**Version**: 6.1 (Enhanced - see ROADMAP-V6.1-ENHANCEMENTS.md for details)
-**Teaching Style**: Cafe-style casual with progressive complexity
-**Implementation Approach**: Modified scaffold (examples + starter code)
+**Last Updated**: 2026-02-10
+**Version**: 7.0 (Phase 0-1 Enhanced + Action-First Teaching Pattern)
+**Teaching Style**: Action-first with comprehensive deep-dive explanations
+**Implementation Approach**: Quick success → Deep understanding
 
 ---
 
-## 🆕 What's New in v6.1?
+## 🆕 What's New in v7.0?
 
-**Enhanced for 2026 Industry Standards** - This version adds critical topics missing from v6.0:
+**Critical Foundation Updates** - This version adds essential topics and improves teaching approach:
 
-- ✅ **GraphRAG & Knowledge Graphs** (Ch 38A) - Emerging standard for complex retrieval
-- ✅ **Production Observability** (Ch 40A-40C) - LangSmith + Arize Phoenix + Distributed Tracing
-- ✅ **Incremental Indexing** (Ch 22 expanded) - Production RAG requirement
-- ✅ **Multimodal AI for CE** (Ch 52A) - CAD analysis, site inspections
-- ✅ **RFI & Code Compliance** (Ch 53 expanded) - CE automation like industry leaders
-- ✅ **CAD Integration** (Ch 54 expanded) - Real-world CE workflows
-- ✅ **Swarm Pattern** (Ch 48A) - Educational agent handoffs
+### New Chapters (CRITICAL)
+- ✅ **Chapter 6D: File Handling & Path Management** - Essential foundation for all AI projects
+- ✅ **Chapter 12A: Asyncio Fundamentals** - Required for streaming, concurrent API calls, production apps
 
-**Total Changes**: +5 new chapters, +5 expanded sections, +10 new properties (P80-P89)
+### Teaching Pattern Evolution
+- ✅ **Action-First, Then Deep Dive** - Quick success in 5-8 minutes, then comprehensive explanations
+- ✅ **All 23 Pedagogical Principles** - Enhanced learning with maintained thoroughness
+- ✅ **No shortcuts** - Every concept fully explained, just reordered for engagement
 
-📖 **See `ROADMAP-V6.1-ENHANCEMENTS.md` for complete details on all changes.**
+### From v6.1 (Preserved)
+- ✅ **GraphRAG & Knowledge Graphs** (Ch 38A)
+- ✅ **Production Observability** (Ch 40A-40C)
+- ✅ **Multimodal AI for CE** (Ch 52A)
+- ✅ All v6.1 enhancements maintained
+
+**Total Changes**: +2 critical chapters, new teaching pattern, +3.5 hours
+
+📖 **See `PHASE-0-TOPICS-ANALYSIS.md` for rationale on new chapters.**
+📖 **See `ACTION-FIRST-DEEP-DIVE-GUIDE.md` for new teaching pattern.**
 
 ---
 
@@ -43,8 +51,8 @@ This curriculum takes you from basic Python knowledge to building production-rea
 
 ---
 
-## Phase 0: Foundations (Chapters 1-6) 🏗️
-**Time**: 9 hours total | **Status**: ✅ PRESERVED from Contract project
+## Phase 0: Foundations (Chapters 1-6D) 🏗️
+**Time**: 15 hours total | **Status**: ✅ Enhanced with File Handling (v7.0)
 
 ### Chapter 1: Environment Setup & Project Initialization
 **Time**: 1.5 hours | **Type**: Foundation | **Difficulty**: ⭐
@@ -166,8 +174,33 @@ This curriculum takes you from basic Python knowledge to building production-rea
 
 ---
 
-## Phase 1: LLM Fundamentals (Chapters 7-12) 🤖
-**Time**: 9 hours total | **Status**: 🆕 NEW - To be created
+### Chapter 6D: File Handling & Path Management (NEW v7.0)
+**Time**: 1.5 hours | **Type**: Foundation | **Difficulty**: ⭐
+
+**What You'll Build**: A file operations utility for reading prompts, saving LLM outputs, and managing document collections.
+
+**Learning Objectives**:
+- Read and write text, CSV, and JSON files
+- Use pathlib for cross-platform path management
+- Implement file context managers (with statement)
+- Handle file errors gracefully
+- Iterate through large files efficiently
+- Perform directory operations safely
+- Load prompts from files for LLM calls
+- Save and organize LLM outputs
+
+**Prerequisites**: Chapter 1 (environment setup), Chapter 6B (error handling)
+
+**Builds Toward**: All LLM chapters (7+), document processing (RAG in Ch 17-22), batch operations
+
+**Key Concepts**: File I/O, pathlib, context managers, CSV/JSON handling, error handling, directory traversal
+
+**Why This Matters**: Every AI project reads prompts from files and saves outputs. This is foundational for document processing, RAG systems, and production applications.
+
+---
+
+## Phase 1: LLM Fundamentals (Chapters 7-12A) 🤖
+**Time**: 22 hours total | **Status**: ✅ Ch 7 complete, Ch 8-12A in progress (v7.0)
 
 ### Chapter 7: Your First LLM Call
 **Time**: 1.5 hours | **Type**: Implementation | **Difficulty**: ⭐
@@ -298,6 +331,33 @@ This curriculum takes you from basic Python knowledge to building production-rea
 **Key Concepts**: Error handling, retries, exponential backoff, circuit breakers, logging
 
 **Correctness Properties**: [P9: Retry count limits, P10: Circuit breaker state transitions]
+
+---
+
+### Chapter 12A: Asyncio Fundamentals (NEW v7.0 - CRITICAL)
+**Time**: 2 hours | **Type**: Foundation | **Difficulty**: ⭐⭐
+
+**What You'll Build**: Concurrent LLM API calls using asyncio for parallel processing and streaming responses.
+
+**Learning Objectives**:
+- Understand async/await syntax and coroutines
+- Master asyncio event loop basics
+- Use asyncio.gather() for parallel API calls
+- Implement async context managers (async with)
+- Handle errors in async code
+- Know when to use async vs sync
+- Understand Python's GIL and its implications (brief)
+- Build production-ready async LLM clients
+
+**Prerequisites**: Chapter 6B (error handling), Chapter 7-8 (LLM basics)
+
+**Builds Toward**: **CRITICAL** for Chapter 13+ (async embeddings), streaming responses, concurrent API calls, all production apps
+
+**Key Concepts**: async/await, coroutines, event loop, asyncio.gather(), async context managers, GIL, concurrent API calls
+
+**Why This Matters**: Modern AI applications are async. Streaming LLM responses, concurrent API calls, real-time chatbots, and production scalability all require asyncio. Every major AI framework (FastAPI, LangChain, LlamaIndex) uses async extensively.
+
+**Correctness Properties**: [P90: Async error propagation, P91: Concurrent request limits]
 
 ---
 
