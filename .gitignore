@@ -118,3 +118,6 @@ _ARCHIVE_*/
 
 # BMad output
 _bmad-output/
+
+# Windows reserved filenames
+nul
