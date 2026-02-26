@@ -1,0 +1,10 @@
+# Versions are pinned for reproducibility — everyone gets the same environment.
+# If pip install fails with resolution conflicts, try removing the version pins:
+#   openai
+#   python-dotenv
+#   streamlit
+# Then re-run: pip install -r requirements.txt
+
+openai==1.51.0
+python-dotenv==1.0.1
+streamlit==1.39.0

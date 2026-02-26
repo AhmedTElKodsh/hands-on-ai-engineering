@@ -1,6 +1,5 @@
 ---
-description: 'Conduct domain research covering industry analysis, regulations, technology trends, and ecosystem dynamics using current web data and verified sources.'
-disable-model-invocation: true
+description: 'Conduct domain and industry research. Use when the user says ""lets create a research report on [domain or industry]""'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:

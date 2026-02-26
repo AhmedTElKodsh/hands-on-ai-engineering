@@ -1,6 +1,5 @@
 ---
-description: 'Conduct technical research covering technology evaluation, architecture decisions, and implementation approaches using current web data and verified sources.'
-disable-model-invocation: true
+description: 'Conduct technical research on technologies and architecture. Use when the user says ""create a technical research report on [topic]"".'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:

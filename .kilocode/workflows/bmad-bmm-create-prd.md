@@ -1,6 +1,5 @@
 ---
-description: 'Create a comprehensive PRD (Product Requirements Document) through structured workflow facilitation'
-disable-model-invocation: true
+description: 'Create a PRD from scratch. Use when the user says ""lets create a product requirements document"" or ""I want to create a new PRD""'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:

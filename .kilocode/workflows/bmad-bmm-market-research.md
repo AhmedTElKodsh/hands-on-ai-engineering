@@ -1,6 +1,5 @@
 ---
-description: 'Conduct market research covering market size, growth, competition, and customer insights using current web data and verified sources.'
-disable-model-invocation: true
+description: 'Conduct market research on competition and customers. Use when the user says ""create a market research report about [business idea]"".'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:

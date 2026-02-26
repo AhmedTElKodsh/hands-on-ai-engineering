@@ -1,6 +1,5 @@
 ---
-description: 'Edit and improve an existing PRD - enhance clarity, completeness, and quality'
-disable-model-invocation: true
+description: 'Edit an existing PRD. Use when the user says ""edit this PRD"".'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:

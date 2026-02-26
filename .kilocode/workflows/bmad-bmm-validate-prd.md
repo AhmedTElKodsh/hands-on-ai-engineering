@@ -1,6 +1,5 @@
 ---
-description: 'Validate an existing PRD against BMAD standards - comprehensive review for completeness, clarity, and quality'
-disable-model-invocation: true
+description: 'Validate a PRD against standards. Use when the user says ""validate this PRD"" or ""run PRD validation""'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:
