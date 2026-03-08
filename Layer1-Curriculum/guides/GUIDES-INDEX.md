@@ -3,7 +3,7 @@
 ## Reference Order and Purpose for the Mechanic-Level AI Engineering Bootcamp
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 
 ---
 
@@ -53,14 +53,19 @@ When and how to use ASCII diagrams, Mermaid flowcharts, data structure evolution
 | What you're doing                        | Primary guide                        | Supporting guides                             |
 | ---------------------------------------- | ------------------------------------ | --------------------------------------------- |
 | Writing a new day from scratch           | TECHNOLOGY-RESEARCH-GUIDE.md         | ACTION-FIRST-GUIDE.md, WRITING-STYLE-GUIDE.md |
-| Choosing setup tools/dependencies        | TECHNOLOGY-RESEARCH-GUIDE.md         | WRITING-STYLE-GUIDE.md (Pattern 8)            |
+| Choosing setup tools/dependencies        | TECHNOLOGY-RESEARCH-GUIDE.md         | WRITING-STYLE-GUIDE.md (Pattern 9)            |
 | Reviewing a day before publishing        | QUALITY-CHECKLIST.md                 | WRITING-STYLE-GUIDE.md                        |
 | Expanding thin scaffold file TODOs       | LANGUAGE-EXPANSION-GUIDE.md          | WRITING-STYLE-GUIDE.md                        |
 | Writing an interview anchor block        | WRITING-STYLE-GUIDE.md (Pattern 3)   | ANALOGY-LIBRARY.md                            |
 | Writing a Mechanic's Analogy             | ANALOGY-LIBRARY.md (Category 0)      | WRITING-STYLE-GUIDE.md                        |
 | Adding diagrams to a README              | VISUAL-ENHANCEMENT-GUIDE.md          | ANALOGY-LIBRARY.md                            |
-| Writing logbook prompts                  | WRITING-STYLE-GUIDE.md (Pattern 7)   | —                                             |
-| Writing spaced review questions          | WRITING-STYLE-GUIDE.md (Pattern 6)   | —                                             |
+| Writing logbook prompts                  | WRITING-STYLE-GUIDE.md (Pattern 8)   | —                                             |
+| Writing spaced review questions          | WRITING-STYLE-GUIDE.md (Pattern 7)   | —                                             |
+| Adding productive failure challenges     | WRITING-STYLE-GUIDE.md (Pattern 6)   | ACTION-FIRST-GUIDE.md (Productive Failure)    |
+| Adding self-explanation checkpoints      | LANGUAGE-EXPANSION-GUIDE.md (Target 7)| WRITING-STYLE-GUIDE.md (Pattern 6A)           |
+| Designing retrieval practice exercises   | ACTION-FIRST-GUIDE.md (Retrieval)    | WRITING-STYLE-GUIDE.md (Pitfall 9)            |
+| Managing day scope (concept count)       | ACTION-FIRST-GUIDE.md (Scope Mgmt)   | QUALITY-CHECKLIST.md (Section 8.4)            |
+| Replacing hint solutions with challenges | LANGUAGE-EXPANSION-GUIDE.md (Target 6)| WRITING-STYLE-GUIDE.md (Pattern 6B)           |
 | Diagnosing a day with low quality scores | QUALITY-CHECKLIST.md (Common Issues) | LANGUAGE-EXPANSION-GUIDE.md                   |
 
 ---
@@ -84,4 +89,4 @@ These Layer 1 guides are adapted from the Layer 2 Curriculum guides. The key dif
 ---
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03

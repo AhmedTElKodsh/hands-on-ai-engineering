@@ -122,6 +122,20 @@ SYSTEM_PROMPT = ""  # replace with your prompt
 #        {"role": "assistant", "content": full}
 
 
+# ── CHECKPOINT: STREAMLIT RERUN MODEL ──────────────────────────────────────────
+# Before continuing, explain to yourself (out loud):
+#
+# 1. Why does `messages = []` break the chat, but `st.session_state.messages`
+#    does not? What happens on each rerun?
+# 2. Why do you need the `if "messages" not in st.session_state` guard?
+#    What would happen if you always reset it to [system_msg]?
+# 3. Why must you render ALL existing messages (the for loop in TODO 6)
+#    on every rerun — not just the new message?
+#
+# If you can answer all three, you understand Streamlit's execution model.
+# If not, re-read the EXECUTION MODEL section at the top of this file.
+# ──────────────────────────────────────────────────────────────────────────────
+
 # ── SIDEBAR (stretch goal) ────────────────────────────────────────────────────
 # TODO 8 (optional): Add a sidebar showing conversation stats.
 #

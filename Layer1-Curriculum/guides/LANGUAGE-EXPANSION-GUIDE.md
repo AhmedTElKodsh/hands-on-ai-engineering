@@ -4,7 +4,7 @@
 
 **Purpose**: Teach content authors how to expand terse, directive content into the kind of rich, teaching-dense material that produces interview-ready learners
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Critical principle**: Order matters. Get learners to working code first, then expand. See `ACTION-FIRST-GUIDE.md` for ordering. This guide covers what to expand — not when.
 
 ---
@@ -240,7 +240,94 @@ Thin logbook prompts ask for recall. Expanded ones ask for synthesis.
 
 ---
 
-### Expansion Target 6: What You Built / What's Next (README Close)
+### Expansion Target 6: Challenge Questions in Concepts Notebooks
+
+Concepts notebooks (like `00_concepts.ipynb`) often contain hint sections with literal code solutions. These create an irresistible temptation — most learners open them within 2 minutes, short-circuiting retrieval practice. Expand hints into challenge-hint hybrids.
+
+**Before expansion** (solution leak):
+```markdown
+### Hint — TODO 5: The API Call
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello"}],
+)
+```
+```
+
+**After expansion** (challenge-hint hybrid):
+```markdown
+### Challenge — TODO 5: The API Call
+
+Before revealing the code hint, answer these exploration questions:
+
+1. The response object has a `.choices` field that is a list. Why a list?
+   When would it have more than one element? (Hint: look up the `n` parameter)
+2. What happens if you send messages without a system role? Try it in a new cell.
+3. What happens if you send two system messages? Try it and observe.
+4. The `model` parameter accepts a string. What happens if you pass a model
+   name that doesn't exist? Try it and read the error carefully.
+
+If you've explored all four and still can't write the code, reveal the hint below.
+
+<details>
+<summary>Code hint (open only after attempting the challenges above)</summary>
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello"}],
+)
+```
+</details>
+```
+
+**Expansion rules for challenge questions**:
+- At least 2 exploration questions per hint section
+- At least one question requires the learner to **try something and observe** (not just think)
+- The code hint is still available but gated behind a collapsible section
+- Challenges should probe understanding, not just recall ("why a list?" not "what type is choices?")
+
+---
+
+### Expansion Target 7: Self-Explanation Checkpoints in Scaffold Files
+
+Scaffold files typically flow from one TODO to the next without pauses for reflection. Add checkpoints after concept-dense TODOs that require the learner to verbalize their understanding.
+
+**Before expansion** (no reflection point):
+```python
+# TODO 5: Implement streaming
+# [code]
+
+# TODO 6: Build the conversation loop
+```
+
+**After expansion** (checkpoint inserted):
+```python
+# TODO 5: Implement streaming
+# [code]
+
+# ── CHECKPOINT ────────────────────────────────────────────────────────────
+# Before continuing to TODO 6, explain to yourself (out loud):
+# 1. Why does each chunk's delta.content need a None check?
+# 2. What would the user experience be if you removed flush=True?
+# 3. Why do you need to accumulate full_response inside the loop?
+# If any answer is fuzzy, re-read the STREAMING CONCEPT section above.
+# ──────────────────────────────────────────────────────────────────────────
+
+# TODO 6: Build the conversation loop
+```
+
+**Expansion rules for checkpoints**:
+- Place after every concept-dense TODO, never after trivial ones
+- 2–3 questions maximum (more becomes tedious)
+- At least one "what would happen if..." counterfactual
+- Require verbal explanation ("say out loud"), not written
+
+---
+
+### Expansion Target 8: What You Built / What's Next (README Close)
 
 Many READMEs end with logbook prompts and nothing else. This is a missed motivational opportunity. The close should name the accomplishment, connect it to real-world software, and make the next day feel inevitable.
 
@@ -282,16 +369,20 @@ Apply in this order when expanding any day's content:
 2. Interview anchor per major concept
 3. Three-part TODOs (WHY, PATTERN, HINT)
 4. README close with forward bridge
+5. At least one productive failure point in Tighten the Bolts (goal → attempt → fail → explain)
 
 ### Priority 2: High impact (do before publishing)
-5. Concept explanations expanded with architectural truth + cost implication
-6. Logbook prompts rewritten from recall to synthesis
-7. TODO navigation comment (implementation order map)
+6. Concept explanations expanded with architectural truth + cost implication
+7. Logbook prompts rewritten from recall to synthesis
+8. TODO navigation comment (implementation order map)
+9. Self-explanation checkpoints after concept-dense TODOs
+10. Challenge-hint hybrids in concepts notebooks (replace pure solution reveals)
 
 ### Priority 3: Polish (improves quality)
-8. Success print statement in hello.py and entry scripts
-9. Spaced review questions graduated in difficulty
-10. Analogy added per major concept (from ANALOGY-LIBRARY.md)
+11. Success print statement in hello.py and entry scripts
+12. Spaced review questions graduated in difficulty
+13. Analogy added per major concept (from ANALOGY-LIBRARY.md)
+14. Delayed recall exercise ("Memory Lock" or next-morning rebuild instruction)
 
 ---
 
@@ -407,5 +498,5 @@ The test: does expanding this help the learner build faster or explain better? I
 ---
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Adapted from**: Layer 2 Language Expansion Guide, reoriented for scaffold-file architecture and interview-readiness objectives

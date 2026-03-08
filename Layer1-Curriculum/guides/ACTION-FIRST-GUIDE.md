@@ -4,7 +4,7 @@
 
 **Philosophy**: A learner who has seen their code work will read the explanation eagerly. A learner who has not yet run anything reads the explanation with resistance.
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Applies To**: All 40 days, especially Days 1–10 (Phase 1: Foundations)
 
 ---
@@ -23,7 +23,7 @@
 
 **Example**: When writing Day 1 setup, research reveals `uv` is 10-100x faster than `pip` with better dependency resolution. The curriculum should use `uv` as the primary approach, with traditional `venv + pip` shown for educational context.
 
-**Why this matters**: Learners who use modern tools signal to employers they stay current with industry trends and make informed technical decisions. See WRITING-STYLE-GUIDE.md Pattern 8 for detailed technology selection standards.
+**Why this matters**: Learners who use modern tools signal to employers they stay current with industry trends and make informed technical decisions. See WRITING-STYLE-GUIDE.md Pattern 9 for detailed technology selection standards.
 
 ---
 
@@ -59,6 +59,64 @@ Layer 1 is built around this sequence. Every day, every scaffold file, every REA
 **Context makes sense after experience.** The explanation of how the `messages` list works as stateless memory is abstract until the learner has built a chatbot that forgets who they are when the list is not maintained. After that experience, the explanation is self-evident.
 
 **Detailed explanations are earned, not owed.** A learner who succeeded wants the full picture — they read every word of the deep explanation because they are building a mental model of something real. A learner who has not yet succeeded reads the explanation with suspicion: "I don't know if I'll ever actually need this."
+
+---
+
+## 🔬 What the Research Actually Says: Evidence-Based Learning Strategies
+
+The action-first approach is grounded in cognitive science research. However, "action first" alone is insufficient — **which type of action** matters enormously. The following table summarizes the evidence:
+
+| Strategy | Evidence Strength | Source | Present in Current Curriculum? | Recommendation |
+|---|---|---|---|---|
+| **Retrieval practice** (test yourself with delay) | Very strong | Roediger & Butler 2011 | Weak — delay too short between notebook and scaffold files | Require code rebuild from scratch the next morning |
+| **Productive failure** (struggle before solution) | Strong | Kapur 2008, 2014 | Absent — solution structure given before learner attempts | Add goal-driven challenges before revealing scaffolding |
+| **Elaborative interrogation** (explain WHY each line) | Strong | Dunlosky 2013 | Partially — WHY comments exist but learner doesn't generate them | Add self-explanation checkpoints after key TODOs |
+| **Interleaving** (mix problem types) | Strong | Rohrer 2012 | Absent — all Day 1 problems use same API | Mix in debugging tasks, code reading, API exploration |
+| **Spaced repetition** (revisit after days) | Very strong | Ebbinghaus, Cepeda 2006 | Present in curriculum design via review questions | Strengthen by requiring code rebuilds, not just verbal recall |
+| **Self-explanation** (explain code to yourself line by line) | Strong | Chi 1989 | Absent — no explicit prompt to explain code | Add "say out loud" checkpoints in scaffold files |
+| **Worked examples** (study solved problems) | Strong for novices | Sweller 1988 | Present — concepts notebook serves this role | Keep but sequence AFTER an initial attempt (productive failure) |
+| **Teaching others** (Feynman technique) | Strong | Roscoe & Chi 2007 | Logbook attempts this but easily skipped | Make it explicit: "Explain this to your study buddy" |
+| **Desirable difficulty** (effortful processing) | Strong | Bjork 1994 | Low — scaffolding removes most difficulty | Reduce scaffolding density in Tighten the Bolts |
+
+### Key Insight: The Scaffolding Paradox
+
+Layer 1's exhaustive scaffolding (WHY/PATTERN/HINT for every TODO) is simultaneously its greatest strength and greatest weakness:
+
+- **Strength**: It prevents learner dropout. Nobody quits because they're stuck on a cryptic TODO.
+- **Weakness**: It caps learning at Bloom's Level 2–3 (Understanding/Applying). The learner never makes structural decisions, discovers failures through experience, or designs solutions from problem statements.
+
+**The resolution**: Use heavy scaffolding for Phase 1 (First Wrench Turn) and lighter, goal-driven challenges for Phase 2 (Tighten the Bolts). The learner succeeds quickly (motivation preserved) and then struggles productively (deep learning activated).
+
+### The Productive Failure Sequence (For Tighten the Bolts)
+
+Replace the current pattern:
+
+```
+Current:  Explain concept → Show pattern → Hint → Build (transcription)
+```
+
+With:
+
+```
+Improved: State goal → Let learner attempt → They hit the wall → Explain why → Rebuild with understanding
+```
+
+**Example — chatbot.py conversation memory**:
+
+```
+CURRENT (recipe):
+  "The API is stateless. Here's a diagram of the messages list growing.
+   Here are the steps: a) init list, b) append user, c) call API, d) append assistant.
+   Now implement it."
+
+IMPROVED (productive failure):
+  "Goal: Build a chatbot where the AI remembers your name after 3 turns.
+   You have the API call pattern from hello.py. Build it. Test with 'What's my name?'
+   [learner discovers the AI has amnesia because they only sent the last message]
+   NOW read the concept explanation below about stateless APIs and message accumulation."
+```
+
+The failure teaches in 30 seconds what the diagram teaches in 5 minutes of passive reading — and the understanding is 10x deeper because it was discovered, not received.
 
 ---
 
@@ -298,6 +356,95 @@ Use this checklist when reviewing any day's content for action-first compliance:
 
 ---
 
+## 🧪 Strengthening Retrieval Practice
+
+The concepts notebook → close → build pattern is framed as retrieval practice, and the instinct is correct. But the execution undermines it:
+
+1. The learner runs all notebook cells (seeing exact solutions)
+2. Closes the notebook
+3. Opens the scaffold file (which has the same patterns, hinted)
+4. "Builds from memory" — but the notebook was open **10 minutes ago**
+
+This is **short-term recall**, not retrieval practice. Cognitive science distinguishes between testing after 10 minutes (minimal benefit) and testing after a delay or context shift (significant benefit).
+
+### Fixing Retrieval Practice in the Curriculum
+
+**Level 1 — Within the same day** (minimum viable fix):
+
+After the learner completes `chatbot.py`, add this instruction to the README:
+
+```markdown
+### Memory Lock (15 min — do not skip)
+
+Close all files. Take a 5-minute break. Walk around.
+
+When you return, open a new empty file called `chatbot_v2.py`.
+Rebuild the conversation loop from memory — no peeking at chatbot.py or the notebook.
+
+You will forget things. That is the point. Every gap you discover and fill yourself
+is a concept that moves from "I read about it" to "I understand it."
+
+When you're done, compare with chatbot.py. Note what you forgot.
+```
+
+**Level 2 — Across days** (stronger, recommended):
+
+```markdown
+### Day 2 Morning Warm-Up (20 min — before touching Day 2 code)
+
+Open a new empty file. Without looking at any Day 1 code:
+
+1. Write a script that sends one message to the API and prints the response
+2. Add a conversation loop with memory
+3. Add streaming
+
+Time yourself. What did you remember? What did you forget?
+This is the real measure of what you learned yesterday.
+```
+
+**Level 3 — Weekly rebuilds** (strongest):
+
+At the end of each week (Days 5, 10, etc.), the learner rebuilds a simplified version of the week's key project from scratch. No references. This is the single highest-leverage intervention for long-term retention.
+
+---
+
+## 🎯 Scope Management: Depth Over Breadth
+
+### The Scope Problem
+
+A common failure in action-first curricula is compensating for the delayed theory by **adding more features** to demonstrate more concepts. This creates the illusion of comprehensive coverage while preventing deep understanding of any single concept.
+
+**Day 1 example**: The current Day 1 covers API fundamentals, token counting, streaming, multi-turn memory, system prompts, Streamlit's execution model, web UI construction, and cross-provider comparison. That is 8 distinct concepts in 4 hours.
+
+### The Fix: Fewer Concepts, Deeper Understanding
+
+**Rule**: Each day should deeply cover 3–4 core concepts. Additional concepts belong on subsequent days.
+
+**Day 1 recommended scope**:
+- Core (must-have): API call, message roles, conversation memory, streaming
+- Move to Day 2–3: Streamlit UI (this is web framework knowledge, not LLM knowledge)
+- Keep as optional: Cross-provider comparison
+
+**What to do with the freed time**: Spend it on **experiments** with the CLI chatbot:
+- Try different system prompts and observe behavior changes
+- Deliberately break memory (only send last message) and diagnose
+- Observe token growth over 20 turns — watch the cost counter climb
+- Implement a `/clear` command that resets conversation history
+- Try sending a conversation with no system message — what changes?
+
+These experiments build understanding. A Streamlit wrapper builds a demo.
+
+### The Streamlit Question
+
+Streamlit on Day 1 is pedagogically suspect for two reasons:
+
+1. **It teaches web framework patterns**, not LLM patterns. Session state, rerun model, chat components — none of this is LLM knowledge.
+2. **It creates the illusion of progress without depth.** The learner has a pretty chatbot in the browser but cannot, from a blank file, reconstruct the message accumulation pattern that makes it work.
+
+**Recommendation**: Move Streamlit to Day 3 or later. On Day 1, the learner should be able to explain and rebuild the core API interaction — not just wrap it in a UI they don't deeply understand.
+
+---
+
 ## ⚠️ Common Action-First Failures
 
 ### Failure 1: Prime the Pump becomes a lecture
@@ -336,5 +483,5 @@ Use this checklist when reviewing any day's content for action-first compliance:
 ---
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Adapted from**: Layer 2 Action-First Deep-Dive Guide, compressed and reoriented for Layer 1 scaffold-file teaching model

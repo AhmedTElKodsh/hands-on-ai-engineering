@@ -338,7 +338,7 @@ This demonstrates:
 
 ## 📚 Related Guides
 
-- `WRITING-STYLE-GUIDE.md` — Pattern 8: Modern Tooling First
+- `WRITING-STYLE-GUIDE.md` — Pattern 9: Modern Tooling First
 - `QUALITY-CHECKLIST.md` — Section 7.1: Code Standards (includes modern tooling check)
 - `ACTION-FIRST-GUIDE.md` — Pre-Writing Technology Research Checklist
 - `GUIDES-INDEX.md` — Full guide reference order

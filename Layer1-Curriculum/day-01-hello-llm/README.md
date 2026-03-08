@@ -1,6 +1,6 @@
 # Day 1 — Hello LLM: Your First AI Conversation
 
-**Mini-Project 1 | ~4 hours | Difficulty: ⭐**
+**Mini-Project 1 | ~4–5 hours | Difficulty: ⭐**
 
 ## The Mechanic's Analogy
 
@@ -18,7 +18,7 @@ Before you write any code, understand this:
 
 **LLMs are next-token predictors.** You give them a sequence of text (a "prompt"), and they predict what comes next, one token at a time. A token is roughly a word or part of a word.
 
-**The API is stateless.** The model doesn't remember your last conversation. Every time you call it, you send the ENTIRE conversation history. This is why "memory" costs money — you're paying to re-send everything every time.
+**The API is stateless.** The model doesn't remember your last conversation. You'll discover exactly what this means — and why it matters — when you build the chatbot in Stage 2. For now, just know: the model starts fresh on every call.
 
 **Three message roles matter:**
 
@@ -26,7 +26,7 @@ Before you write any code, understand this:
 - `user` — your input
 - `assistant` — the AI's response
 
-That's it. Everything you build today is just managing a list of these messages and sending them to the API.
+That's it. Everything you build today revolves around these messages and sending them to the API.
 
 ## What You're Building
 
@@ -162,8 +162,11 @@ Use this if you're in an environment where `uv` isn't available or if you need c
 Get a response from the LLM. That's it. A few lines. Run it.
 
 **Stage 2 — chatbot.py** (60–90 minutes)
-Build the CLI chatbot. See the TODOs inside the file.
+Build the CLI chatbot. Try the CHALLENGE section in `main()` before reading the step-by-step.
 Run it: `python chatbot.py`
+
+**Stage 2.5 — Memory Lock** (15 minutes — do not skip)
+Close everything. Take a break. Rebuild the chatbot from scratch in `chatbot_v2.py`. Details below.
 
 **Stage 3 — app.py** (60–90 minutes)
 Wrap your chatbot in Streamlit.
@@ -172,15 +175,38 @@ Run it: `streamlit run app.py`
 **Optional — compare_apis.py** (30–45 minutes, if time allows)
 Compare OpenAI and Anthropic APIs side-by-side. This is NOT required for Day 1 completion, but it will help you understand API differences and answer the logbook question about switching to Claude. Only do this if you've completed all three stages above and have extra time.
 
+## Memory Lock (15 min — do not skip)
+
+After you finish `chatbot.py` and BEFORE you start `app.py`, do this:
+
+1. **Close all files.** Close chatbot.py, hello.py, the concepts notebook — everything.
+2. **Take a 5-minute break.** Walk around. Get water. Look out a window.
+3. **Open a new empty file** called `chatbot_v2.py`.
+4. **Rebuild the conversation loop from memory** — no peeking at chatbot.py or the notebook. You'll need:
+   - The imports
+   - The client setup
+   - A system prompt
+   - A conversation loop with message accumulation
+   - streaming (or non-streaming — your choice)
+5. **Run it.** Does it work? Where did you get stuck?
+
+**You will forget things. That is the point.** Every gap you discover and fill yourself is a concept that moves from "I read about it" to "I understand it." After you're done, compare with chatbot.py and note what you forgot.
+
+This takes 15 minutes and is the single highest-leverage exercise of the day.
+
+---
+
 ## Road Test
 
 Work through this checklist before marking Day 1 complete:
 
 - [ ] `hello.py` runs and prints an AI response
+- [ ] You completed the EXPLORE experiments at the bottom of hello.py
 - [ ] `chatbot.py` loop runs, AI remembers context across turns
 - [ ] Ask "What did I just ask you?" — AI answers correctly
 - [ ] Streaming in chatbot.py prints tokens as they arrive (not all at once)
 - [ ] Type "quit" in chatbot.py — see session stats with token count and cost
+- [ ] You completed the Memory Lock exercise (chatbot_v2.py from scratch)
 - [ ] Streamlit UI shows full chat history with user/assistant bubbles
 - [ ] `.env` is NOT in git (`git status` should not show it)
 - [ ] Optional: `compare_apis.py` runs and shows responses from both OpenAI and Anthropic
@@ -205,11 +231,28 @@ Day 2 will start with questions about today's work. Make sure you can answer:
 - Why does conversation "memory" cost money?
 - What's the difference between streaming and non-streaming responses?
 
-## Logbook (fill in after finishing)
+### Day 2 Morning Warm-Up (20 min — before touching Day 2 code)
 
-> What surprised you about the API response format?
+Open a new empty file. Without looking at any Day 1 code:
 
-> What happens when the messages list gets very long?
+1. Write a script that sends one message to the API and prints the response
+2. Add a conversation loop with memory
+3. Add streaming
 
-> How would you switch this to Anthropic's Claude API? What would change?
+Time yourself. What did you remember? What did you forget?
+This is the real measure of what you learned today — not whether chatbot.py runs, but whether you can rebuild it tomorrow.
+
+## Logbook (fill in after finishing — answer from memory, not from notes)
+
+> What would happen to costs and behavior if your messages list grew to 500 turns? What are two specific strategies you could use to prevent this?
+
+> Your colleague says "we don't need streaming — users can wait 10 seconds for a response." What's the counter-argument? When would your colleague be right?
+
+> How would you modify today's chatbot to work with Anthropic's Claude API instead of OpenAI? What would change in the API call? What would stay the same?
 > (Hint: If you completed the optional compare_apis.py exercise, you already know the answer!)
+
+## You Built It
+
+You have a working AI chatbot that maintains conversation context, streams responses token by token, and runs in a web UI. The same architecture — stateless API, accumulated message list, streaming chunks — powers production chatbots at companies like Notion, Intercom, and GitHub Copilot. The production versions are more complex, but the core pattern is identical to what you just wrote.
+
+**Tomorrow**: You will learn to make the AI return exactly the data structure you need, reliably. Structured outputs and prompt engineering — the foundation of every AI-powered feature that needs to reliably extract data, classify inputs, or populate a database.

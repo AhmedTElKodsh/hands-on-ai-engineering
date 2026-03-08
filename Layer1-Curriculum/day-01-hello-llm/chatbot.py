@@ -9,19 +9,20 @@ Features to build (in this order):
   3. System prompt      — give your bot a personality
   4. Streaming          — print tokens as they arrive, not all at once
 
-Key concepts:
-  - The "messages" list is your entire memory. Every user message AND
-    every assistant reply must be appended to it, in order.
-  - Streaming: pass stream=True, iterate over the response chunks,
-    each chunk has choices[0].delta.content (may be None — check first)
-  - The system message goes FIRST in the messages list, before any
-    user/assistant turns.
+IMPORTANT — How to approach this file:
+  This file uses "productive failure" for the conversation memory concept.
+  That means: you'll be given a GOAL first, asked to TRY it yourself, and
+  you WILL probably get it wrong. That's the point. The failure teaches you
+  more than the explanation. Read the CHALLENGE section in main() BEFORE
+  reading the CONCEPT section.
+
+  Streaming (TODO 5) has detailed scaffolding because the chunk API is
+  genuinely non-obvious and you'd waste time on API trivia, not learning.
 
 Run with: python chatbot.py
 """
 
-# TODO 1: Imports — openai, dotenv, os, sys
-import openai, dotenv, os, sys
+# TODO 1: Imports — you'll need: OpenAI client, dotenv loader, os, sys
 
 # TODO 2: Load environment variables
 
@@ -114,15 +115,61 @@ def stream_response(messages: list) -> tuple[str, dict]:
     pass
 
 
+# ── CHECKPOINT: STREAMING ──────────────────────────────────────────────────────
+# Before moving to main(), explain to yourself (out loud):
+#
+# 1. Why does delta.content need a None check? What are those None chunks for?
+# 2. What would the user experience be if you removed flush=True?
+# 3. Why do you need to accumulate full_response inside the loop — can't you
+#    just get the full text from the response object after the loop?
+# 4. Why does usage only appear in the LAST chunk?
+#
+# If any answer is fuzzy, re-read the STREAMING CONCEPT docstring above.
+# ───────────────────────────────────────────────────────────────────────────────
+
+
 # ── MAIN LOOP ─────────────────────────────────────────────────────────────────
 def main():
     """
     TODO 6: Build the conversation loop.
 
-    MEMORY CONCEPT (understand this before coding):
-    ───────────────────────────────────────────────
-    The messages list is your entire conversation history. The API is STATELESS —
-    it doesn't remember previous turns. YOU must send the full history every time.
+    ── CHALLENGE: Build it yourself BEFORE reading the step-by-step ────────────
+    Your goal: build a working conversation loop where the AI remembers your
+    name after 3 turns, streams responses, and tracks token usage.
+
+    You already know the pieces:
+      - The API call pattern (from hello.py)
+      - How stream_response() works (you just built it above)
+      - That the API is stateless (you saw this in the concepts notebook)
+      - How to get user input with input()
+      - How to loop with while True
+
+    The challenge is NOT "discover statelessness" — you already know about it.
+    The challenge is: can you ASSEMBLE all the pieces into a working program
+    without step-by-step instructions? Structure the code yourself. Decide
+    what to initialize, what order to do things in, how to handle the loop.
+
+    Build it now. Don't read past this section. Test with:
+      1. Tell it: "My name is Ahmed"
+      2. Ask: "What's 2+2?"
+      3. Ask: "What's my name?"
+
+    If step 3 fails, diagnose WHY — then read the CONCEPT section below.
+    If it works, read the CONCEPT section anyway to confirm your mental model.
+    Then compare your structure to the step-by-step in "NOW BUILD IT PROPERLY".
+    Where did your approach differ? Which is better?
+    ──────────────────────────────────────────────────────────────────────────
+
+
+    ── CONCEPT: Why It Broke (read AFTER attempting the challenge) ────────────
+    The API is STATELESS. That word is worth sitting with. The server does not
+    store anything between your calls. Every time you call it, it starts fresh.
+
+    If you only sent the LAST message ("What's my name?"), the API has no idea
+    you ever told it your name. It received one message with zero context.
+
+    The fix: you keep the ENTIRE conversation in a Python list and re-send it
+    every time. This is the "messages" list.
 
     After each turn, your messages list evolves like this:
 
@@ -134,35 +181,27 @@ def main():
     Turn 1 (user says "Hello"):
       [
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": "Hello"}              ← you append this BEFORE calling API
+        {"role": "user", "content": "Hello"}              ← append BEFORE calling API
       ]
       API responds: "Hi! How can I help?"
       [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": "Hello"},
-        {"role": "assistant", "content": "Hi! How can I help?"}  ← you append this AFTER getting response
+        {"role": "assistant", "content": "Hi! How can I help?"}  ← append AFTER response
       ]
 
     Turn 2 (user says "What's 2+2?"):
-      [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": "Hello"},
-        {"role": "assistant", "content": "Hi! How can I help?"},
-        {"role": "user", "content": "What's 2+2?"}        ← append user message
-      ]
-      API responds: "2+2 equals 4."
-      [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": "Hello"},
-        {"role": "assistant", "content": "Hi! How can I help?"},
-        {"role": "user", "content": "What's 2+2?"},
-        {"role": "assistant", "content": "2+2 equals 4."}  ← append assistant response
-      ]
+      [system, user: Hello, assistant: Hi!, user: What's 2+2?]  ← append user
+      API responds → append assistant: "2+2 equals 4."
 
-    This is how the AI "remembers" — you're re-sending the entire conversation every time.
-    This is also why long conversations cost more — you pay for every token in the history.
+    The list grows by 2 every turn. Cost grows proportionally.
+    This is why long conversations cost more — you pay for the full history each call.
+    ──────────────────────────────────────────────────────────────────────────
 
-    Steps:
+
+    ── NOW BUILD IT PROPERLY ─────────────────────────────────────────────────
+    Steps (now that you understand WHY):
+
       a) Initialise the messages list with the system message:
            [{"role": "system", "content": SYSTEM_PROMPT}]
 
@@ -201,6 +240,20 @@ def main():
     """
     # your code here
     pass
+
+
+# ── CHECKPOINT: MEMORY ─────────────────────────────────────────────────────────
+# Before moving to the SELF-CHECK tests, explain to yourself (out loud):
+#
+# 1. Why does the messages list grow by 2 every turn?
+# 2. What would happen if you appended the user message but NOT the assistant reply?
+# 3. What would happen if you appended the assistant reply BEFORE calling the API?
+# 4. On turn 10, roughly how many messages are in the list? How does this affect cost?
+#
+# If you attempted the CHALLENGE section and experienced the failure yourself,
+# these questions should be easy. If you skipped the challenge and went straight
+# to the concept — go back and try it. The failure is the lesson.
+# ───────────────────────────────────────────────────────────────────────────────
 
 
 if __name__ == "__main__":

@@ -236,7 +236,106 @@ Layer 1 uses the Mechanic/Garage/Car domain as its primary day-opening frame. Co
 
 ---
 
-### Pattern 6: Spaced Review Cadence
+### Pattern 6: Productive Failure Before Solution
+
+Layer 1's most counterintuitive but highest-leverage pedagogical technique. Based on Manu Kapur's research (2008–2024), learners who **struggle with a problem before being shown the solution** develop significantly deeper understanding than learners who receive the solution structure first.
+
+**The current risk in Layer 1**: Exhaustive scaffolding (WHY/PATTERN/HINT for every TODO) removes friction — and **friction is where learning happens**. When every TODO tells the learner exactly what to do and why, the hardest cognitive task is translating English into Python. This is Bloom's Taxonomy Level 2–3 (Understanding/Applying). Real understanding lives at Levels 4–6 (Analyze/Evaluate/Create).
+
+**What productive failure looks like in practice**:
+
+```markdown
+### Tighten the Bolts — Conversation Memory
+
+**Your goal**: Build a chatbot where the AI remembers your name after 3 turns.
+
+You already know how to call the API (hello.py). You know the response format.
+Now make it conversational. Run it. Test with "What's my name?" after telling it your name.
+
+When it fails — and it probably will — diagnose why. Then read the concept explanation below.
+```
+
+The learner attempts the goal with minimal guidance, hits a wall (the AI has amnesia because they only sent the last message), and THEN reads the message accumulation explanation. That failure creates 10x deeper understanding than reading a perfect diagram first.
+
+**When to use productive failure**:
+- The concept has a non-obvious failure mode the learner can safely discover (statelessness, missing context, wrong chunk size)
+- The learner has enough prerequisite knowledge to attempt the task (they've already completed hello.py)
+- The failure is diagnosable within 5–10 minutes (not a 2-hour dead end)
+
+**When NOT to use productive failure**:
+- Setup/configuration steps (don't let learners struggle with .env files — that's not learning)
+- The First Wrench Turn (must succeed in 15 min — save productive failure for Tighten the Bolts)
+- When the failure would require knowledge the learner genuinely doesn't have yet
+
+**Implementation pattern for scaffold files**:
+
+```python
+# ── CHALLENGE: Build this before reading the solution ────────────────────
+# GOAL: Make the AI remember what you said 3 turns ago.
+# You have: the API call pattern from hello.py, a while loop, input().
+# Build it. Test it. When it breaks, read the CONCEPT section below.
+#
+# ── CONCEPT: Why It Broke ────────────────────────────────────────────────
+# The API is stateless. It has no memory between calls...
+# [full explanation follows, but AFTER the challenge]
+```
+
+**The critical distinction**: This does not mean removing all scaffolding. It means **sequencing** the scaffolding to arrive AFTER the struggle, not before it. The learner still gets the WHY/PATTERN/HINT — just at the moment when they actually need it, not preemptively.
+
+---
+
+### Pattern 6A: Self-Explanation Prompts
+
+Research by Chi (1989) and Dunlosky (2013) shows that learners who explain code to themselves line by line develop significantly stronger mental models than those who passively read explanations.
+
+**Add after key TODOs in scaffold files**:
+
+```python
+# BEFORE MOVING ON: Say out loud in one sentence why this line exists.
+# If you can't, re-read the WHY above. If you still can't, stop and investigate.
+```
+
+**Add after major code sections**:
+
+```python
+# ── CHECKPOINT ────────────────────────────────────────────────────────────
+# Before continuing, explain to yourself (out loud, not in your head):
+# 1. Why does the messages list grow by 2 every turn?
+# 2. What would happen if you only appended the user message but not the assistant reply?
+# 3. Why does cost grow with conversation length?
+# If any answer is fuzzy, re-read the CONCEPT section above. Don't proceed on vibes.
+```
+
+**Rules**:
+- Place after every concept-dense TODO, not after trivial ones (no checkpoint after `import os`)
+- Require verbal explanation ("say out loud"), not written — verbal forces real-time synthesis
+- Include one "what if" question that forces the learner to reason about a counterfactual
+- Keep to 2–3 questions maximum per checkpoint
+
+---
+
+### Pattern 6B: Challenge Questions Over Hint Solutions
+
+The concepts notebook (and Section 8/9 hint blocks) should include **challenge questions** alongside or instead of literal solutions. Literal solutions create a temptation that most learners cannot resist — they open the hint within 2 minutes, short-circuiting the retrieval practice.
+
+**Replace pure hint sections with challenge-hint hybrids**:
+
+```markdown
+### Challenge — TODO 5: The API Call
+
+Before revealing the hint, answer these:
+- The response object has a `.choices` field that is a list. Why a list? When would it have more than one element?
+- What happens if you send messages without a system role? Try it.
+- What happens if you send two system messages? Try it and observe.
+
+If you've answered all three and still can't write the code, reveal the hint below.
+```
+
+**Why this works**: The challenges force the learner to explore the API's behavior, which builds genuine understanding. Even if they eventually open the hint, they've already engaged with the material at a deeper level than pure transcription.
+
+---
+
+### Pattern 7: Spaced Review Cadence
 
 Spaced review is one of Layer 1's highest-leverage features. It must follow this cadence:
 
@@ -263,7 +362,7 @@ From Day 3:
 
 ---
 
-### Pattern 7: Logbook Prompts
+### Pattern 8: Logbook Prompts
 
 Logbook prompts are synthesis questions, not quiz questions. They should require the learner to apply knowledge in a new context, speculate about what would happen under different conditions, or connect concepts across days.
 
@@ -283,7 +382,7 @@ Logbook prompts are synthesis questions, not quiz questions. They should require
 
 ## 🔬 Technology Selection & Research Standards
 
-### Pattern 8: Modern Tooling First
+### Pattern 9: Modern Tooling First
 
 Layer 1 teaches production-ready practices. This means using current best-in-class tools, not legacy approaches that happen to be more common in tutorials.
 
@@ -436,11 +535,35 @@ When learners explain their projects in interviews, using modern tools demonstra
 - **Why**: That is a quiz question with one right answer. Logbook should require synthesis.
 - **Fix**: "If you were building a customer service bot, how would you design the system prompt differently than you did today? What constraints would you add?"
 
-### Pitfall 5: No Forward Bridge
+### Pitfall 5: "Muscle Memory" Framing
+
+- **Don't**: "Type every character. Muscle memory matters."
+- **Why**: Motor learning research applies to physical skills (piano, surgery), not cognitive skills. Nobody fails an interview because their fingers forgot `client.chat.completions.create()`. The real value of typing over copy-pasting is **forced attention** — when you type, you're forced to read and process each line. When you paste, your brain skips over it.
+- **Fix**: Reframe as: "Type everything yourself. Not for muscle memory — because the act of typing forces you to actually read and process each line instead of glazing over copy-pasted code."
+
+### Pitfall 6: Exhaustive Scaffolding That Prevents Learning
+
+- **Don't**: Give the learner step-by-step instructions so detailed that the only cognitive task is translating English to Python.
+- **Why**: This caps learning at Bloom's Level 2–3 (Understanding/Applying). The learner never makes structural decisions, never discovers failure modes through experience, and never designs solutions from a problem statement. Success is guaranteed but shallow.
+- **Fix**: Use the Productive Failure pattern (Pattern 6 above) for Tighten the Bolts concepts. Give goals and constraints, not step-by-step recipes. Reserve detailed scaffolding for the First Wrench Turn where quick success matters.
+
+### Pitfall 7: Scope Overload on Day 1
+
+- **Don't**: Cover 8+ distinct concepts on the first day (API fundamentals, token counting, streaming, multi-turn memory, system prompts, Streamlit execution model, web UI construction, cross-provider comparison).
+- **Why**: Breadth prevents depth. The learner's understanding of each concept is necessarily shallow because there's no time to sit with any single one. The Streamlit exercise in particular teaches web framework knowledge, not LLM knowledge — it belongs on a later day after API foundations are solid.
+- **Fix**: Limit Day 1 to 3–4 core concepts (API call, message roles, conversation memory, streaming). Move Streamlit to Day 3+ when the learner has solid command of the API. Spend the freed time on CLI chatbot experiments: different system prompts, deliberately breaking memory, observing token growth over 20 turns, implementing a `/clear` command.
+
+### Pitfall 8: No Forward Bridge
 
 - **Don't**: End a day's README with just the logbook prompts.
 - **Why**: The learner needs to understand what they accomplished in context and what they are building toward.
 - **Fix**: Close every README with a 3–5 sentence "What You Built / What's Next" section that names the capability gained and how it connects to the next day.
+
+### Pitfall 9: Short-Term Recall Disguised as Retrieval Practice
+
+- **Don't**: Have the learner read the concepts notebook, close it, and immediately build from "memory" — then call this retrieval practice.
+- **Why**: Cognitive science distinguishes between testing yourself after 10 minutes (minimal learning benefit — you're reading from your mental clipboard) and testing yourself after a delay or context shift (significant benefit — genuine retrieval). The learner feels like they're retrieving from memory, but the notebook was open minutes ago.
+- **Fix**: Real retrieval practice requires a delay. The most effective pattern: build hello.py with notebook available on Day 1 afternoon. On Day 2 morning, rebuild hello.py from SCRATCH without any reference. See what you remember and what you don't. THAT is the learning moment. The curriculum's spaced review partially addresses this, but **rebuilding code from memory** is far more powerful than **answering verbal questions about code**.
 
 ---
 
@@ -455,5 +578,5 @@ When learners explain their projects in interviews, using modern tools demonstra
 ---
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Adapted from**: Layer 2 Writing Style Guide, reoriented for Layer 1 objectives, Mechanic's Workflow, and interview-readiness North Star

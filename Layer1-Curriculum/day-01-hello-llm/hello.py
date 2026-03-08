@@ -5,7 +5,10 @@ Goal: send ONE message to the LLM and print the response.
 Target time: 15 minutes.
 
 Your job: fill in every TODO. Do NOT copy-paste from tutorials.
-Type every character. Muscle memory matters.
+Type every character — not for "muscle memory" (programming is a cognitive
+skill, not a motor one) but because typing forces you to actually read and
+process each line. When you paste, your brain skips over the code. When you
+type, you're forced to engage with every character.
 
 ► Read 00_concepts.ipynb FIRST — it teaches every SDK call you need here.
   Hints for each TODO are in that notebook (collapsed — open only when stuck).
@@ -26,7 +29,6 @@ if sys.version_info < (3, 10):
 
 # TODO 1: Import the OpenAI client class from the openai library
 # ► Stuck? See 00_concepts.ipynb → Section 0, Hint TODO 1
-from openai import ___________
 
 # TODO 2: Import load_dotenv from dotenv, and os from the standard library
 # ► Stuck? See 00_concepts.ipynb → Section 0, Hint TODO 2
@@ -81,14 +83,34 @@ from openai import ___________
 # print("  you will build in the next 39 days.")
 # print("─" * 62 + "\n")
 
-# -----------------------------------------------------------------------
-# Once it works, answer these questions in comments below:
+# ── CHECKPOINT ────────────────────────────────────────────────────────────
+# Before moving on to chatbot.py, explain to yourself (out loud, not in
+# your head) the answer to each of these:
 #
-# Q: What type is response.choices? (hint: print(type(response.choices)))
+# 1. Why does the API need a "messages" list instead of a single string?
+# 2. What would happen if you forgot to call load_dotenv()? Why?
+# 3. The response has .choices (a list). Why a list — when would there be
+#    more than one choice? (Hint: look up the "n" parameter in the docs)
 #
-# Q: What other fields does response have besides choices?
-#    (hint: print(response.model_dump().keys()))
+# If any answer is fuzzy, re-read the relevant section of 00_concepts.ipynb.
+# Don't move on feeling "yeah I sort of get it." Move on feeling "I could
+# explain this to someone else."
+# ──────────────────────────────────────────────────────────────────────────
+
+# ── EXPLORE (do these BEFORE looking at chatbot.py) ──────────────────────
+# Try each experiment in a Python REPL or by modifying this file temporarily:
 #
-# Q: This request cost roughly $0.000024. How much would 1000 identical
-#    requests cost? How many could you run for $1?
-# -----------------------------------------------------------------------
+# Experiment 1: What happens if you send messages with NO system role?
+#               Try it. Does the response change? How?
+#
+# Experiment 2: What happens if you pass a model name that doesn't exist?
+#               Try model="gpt-nonexistent" and read the error carefully.
+#
+# Experiment 3: print(response.model_dump().keys())
+#               What fields does the response object have besides choices?
+#
+# Experiment 4: This request cost roughly $0.000024. How much would 1000
+#               identical requests cost? How many could you run for $1?
+#
+# These experiments build real understanding. Don't skip them.
+# ──────────────────────────────────────────────────────────────────────────

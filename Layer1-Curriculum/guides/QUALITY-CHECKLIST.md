@@ -167,27 +167,56 @@
 
 ---
 
+### Section 8: Cognitive Science Compliance (10 items)
+
+#### 8.1 Productive Failure 🔴
+
+- [ ] **Goal-driven challenge in Tighten the Bolts**: At least one concept is introduced via a goal + attempt sequence before the solution is revealed
+- [ ] **Failure mode is discoverable**: The learner can hit the wall and diagnose the failure within 5–10 minutes (not a 2-hour dead end)
+- [ ] **Explanation follows failure**: The concept explanation appears AFTER the challenge section, not before
+
+#### 8.2 Self-Explanation Prompts 🟡
+
+- [ ] **Checkpoint after key TODOs**: At least 2 "say out loud" checkpoints appear in main scaffold files
+- [ ] **Counterfactual questions included**: Checkpoints include at least one "what would happen if..." question
+- [ ] **No checkpoints on trivial TODOs**: Checkpoints appear after concept-dense TODOs only (not after `import os`)
+
+#### 8.3 Retrieval Practice 🟡
+
+- [ ] **Delayed recall exercise present**: The day includes a "Memory Lock" or "Rebuild from scratch" instruction that requires building without references after a break
+- [ ] **Next-morning rebuild suggested**: README mentions rebuilding a simplified version the next morning as a warm-up
+
+#### 8.4 Scope Discipline 🔴
+
+- [ ] **Core concepts limited to 3–4**: The day covers no more than 4 deeply-taught core concepts (optional/stretch concepts don't count)
+- [ ] **No unrelated framework teaching on concept days**: UI framework knowledge (Streamlit, Gradio) is not bundled with core API/LLM concept days unless the framework IS the concept
+
+**Score**: \_\_\_/10
+
+---
+
 ## 📊 Scoring Summary
 
-| Section                    | Items  | Score         | %         |
-| -------------------------- | ------ | ------------- | --------- |
-| 1. Structural Completeness | 10     | \_\_\_/10     | \_\_%     |
-| 2. Scaffold File Quality   | 10     | \_\_\_/10     | \_\_%     |
-| 3. Learning Method Quality | 12     | \_\_\_/12     | \_\_%     |
-| 4. Voice & Tone            | 8      | \_\_\_/8      | \_\_%     |
-| 5. Concept Explanation     | 8      | \_\_\_/8      | \_\_%     |
-| 6. Road Test Quality       | 5      | \_\_\_/5      | \_\_%     |
-| 7. Code Quality            | 8      | \_\_\_/8      | \_\_%     |
-| **TOTAL**                  | **61** | **\_\_\_/61** | **\_\_%** |
+| Section                         | Items  | Score         | %         |
+| ------------------------------- | ------ | ------------- | --------- |
+| 1. Structural Completeness      | 10     | \_\_\_/10     | \_\_%     |
+| 2. Scaffold File Quality        | 10     | \_\_\_/10     | \_\_%     |
+| 3. Learning Method Quality      | 12     | \_\_\_/12     | \_\_%     |
+| 4. Voice & Tone                 | 8      | \_\_\_/8      | \_\_%     |
+| 5. Concept Explanation           | 8      | \_\_\_/8      | \_\_%     |
+| 6. Road Test Quality            | 5      | \_\_\_/5      | \_\_%     |
+| 7. Code Quality                 | 8      | \_\_\_/8      | \_\_%     |
+| 8. Cognitive Science Compliance | 10     | \_\_\_/10     | \_\_%     |
+| **TOTAL**                       | **71** | **\_\_\_/71** | **\_\_%** |
 
 ### Quality Thresholds
 
-- **90–100%** (55–61 items): ✅ Excellent — publish immediately
-- **80–89%** (49–54 items): ⚠️ Good — minor revisions, then publish
-- **70–79%** (43–48 items): ⚠️ Adequate — significant improvements needed
-- **< 70%** (< 43 items): ❌ Insufficient — major revision required
+- **90–100%** (64–71 items): ✅ Excellent — publish immediately
+- **80–89%** (57–63 items): ⚠️ Good — minor revisions, then publish
+- **70–79%** (50–56 items): ⚠️ Adequate — significant improvements needed
+- **< 70%** (< 50 items): ❌ Insufficient — major revision required
 
-**Minimum target**: 80% (49/61) before learners use the content
+**Minimum target**: 80% (57/71) before learners use the content
 
 ---
 
@@ -219,6 +248,16 @@ These items are absolute requirements. A day missing any of them must be revised
 
 **Why**: Review of only yesterday's material is not spaced review — it is repetition. The spacing effect requires time between encoding and recall.
 **Verification**: Check the spaced review section. Confirm that at least one question references a day more than 2 days earlier.
+
+### Critical 6: At Least One Productive Failure Point
+
+**Why**: Research consistently shows that learners who struggle before being shown the solution develop deeper understanding (Kapur 2008–2024). A day with zero struggle points produces shallow learning regardless of how well-scaffolded the TODOs are.
+**Verification**: Find at least one place in the Tighten the Bolts section where the learner is given a goal and told to attempt it before reading the explanation. If every concept is pre-explained before the learner tries anything, the day needs revision.
+
+### Critical 7: No "Muscle Memory" Framing
+
+**Why**: Programming is a cognitive skill, not a motor one. "Muscle memory matters" is the wrong justification for "type don't paste." The correct justification is forced attention — typing forces the learner to read and process each line.
+**Verification**: Search for "muscle memory" in all files. If found, reframe to "forced attention" or "active processing."
 
 ---
 
@@ -261,6 +300,21 @@ Day 1 has additional requirements because it is the learner's first experience w
 **Diagnosis**: Day ends with logbook prompts and nothing else
 **Fix**: Add a 3–5 sentence section after the logbook that names: (1) what capability the learner now has that they did not have yesterday, (2) how this connects to Day N+1, (3) what the full 10-day phase is building toward.
 
+### Issue 6: "The day is all recipe, no struggle"
+
+**Diagnosis**: Every TODO gives step-by-step instructions so detailed that the learner's only cognitive task is translating English to Python. The day scores 0/3 on Section 8.1 (Productive Failure).
+**Fix**: Identify the 1–2 most important concepts in Tighten the Bolts. For those concepts, restructure from "explain → hint → build" to "state goal → let learner attempt → they fail → explain why → rebuild." Keep the First Wrench Turn heavily scaffolded (quick success matters there), but reduce scaffolding density in Tighten the Bolts where deeper learning happens. See WRITING-STYLE-GUIDE.md Pattern 6 for the implementation pattern.
+
+### Issue 7: "The day covers too many concepts"
+
+**Diagnosis**: The day introduces 6+ distinct concepts, none of which are explored in depth. The learner finishes with surface-level familiarity across many topics rather than deep understanding of a few.
+**Fix**: Limit core concepts to 3–4 per day. Move additional concepts to subsequent days. Use the freed time for experiments and exploration with the core concepts. See ACTION-FIRST-GUIDE.md Scope Management section for specific guidance.
+
+### Issue 8: "The concepts notebook has pure solution reveals"
+
+**Diagnosis**: Hint sections contain literal code solutions without any gating or exploration requirement. Most learners open them within 2 minutes, short-circuiting retrieval practice.
+**Fix**: Replace hint sections with challenge-hint hybrids: 2–3 exploration questions the learner must answer before revealing the code. Gate the code solution in a collapsible `<details>` block. See LANGUAGE-EXPANSION-GUIDE.md Expansion Target 6 for examples.
+
 ---
 
 ## 📚 Related Guides
@@ -273,5 +327,5 @@ Day 1 has additional requirements because it is the learner's first experience w
 ---
 
 **Layer**: Layer 1 — The Mechanic Level
-**Last Updated**: 2026-02-25
+**Last Updated**: 2026-03-03
 **Adapted from**: Layer 2 Quality Checklist, reoriented for Mechanic's Workflow and interview-readiness objectives
