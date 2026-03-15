@@ -60,7 +60,7 @@ By the end of this curriculum, you'll have built a **complete AI-powered Civil E
 | **Phase 9**  | 43-48    | 9h    | 👥 Multi-Agent: CrewAI, AutoGen, teams               |
 | **Phase 10** | 49-54    | 9h    | 🏗️ Civil Engineering: Complete system                |
 
-**Total: 54 chapters, 71 hours** | **Current Progress: 19/54 chapters (30.1%)** ✅
+**Total: 54 chapters, 71 hours** | **Current Progress: 14/54 chapters (25.9%)** ✅
 
 ## ✨ Key Features
 
@@ -227,7 +227,7 @@ hands-on-ai-engineering/
 
 ## 📊 Current Status
 
-**Progress**: 19/54 chapters complete (30.1%) ✅  
+**Progress**: 14/54 chapters complete (25.9%) ✅  
 **Latest**: Chapter 14 - Vector Stores with Chroma  
 **Template**: v2.1 (100% compliance on updated chapters)  
 **Quality**: All chapters include automated verification scripts

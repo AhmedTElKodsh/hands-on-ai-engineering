@@ -120,7 +120,7 @@ class TestRAGQueryPipeline:
     def test_ask_rag_returns_string(self):
         """Test that ask_rag returns a string answer."""
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -130,7 +130,7 @@ class TestRAGQueryPipeline:
                 spec.loader.exec_module(module)
                 
                 # Setup
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_rag_db", collection_name="test_rag")
                 
                 # Add test data
@@ -149,7 +149,7 @@ class TestRAGQueryPipeline:
     def test_ask_rag_retrieves_relevant_context(self):
         """Test that RAG retrieves relevant documents from vector store."""
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -158,7 +158,7 @@ class TestRAGQueryPipeline:
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_retrieval_db", collection_name="test_retrieval")
                 
                 # Add specific knowledge
@@ -179,7 +179,7 @@ class TestRAGQueryPipeline:
         except (ImportError, NotImplementedError, AttributeError):
             pytest.skip("Context retrieval not yet implemented") spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_retrieval_db", collection_name="test_retrieval")
                 
                 # Add specific knowledge
@@ -203,7 +203,7 @@ class TestRAGQueryPipeline:
     def test_ask_rag_handles_unknown_questions(self):
         """Test that RAG says 'I don't know' for questions without context."""
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -212,7 +212,7 @@ class TestRAGQueryPipeline:
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_unknown_db", collection_name="test_unknown")
                 
                 # Add knowledge about bridges only
@@ -306,7 +306,7 @@ class TestHallucinationPrevention:
     def test_grounding_overrides_training_data(self):
         """Test that grounded prompts override LLM training data."""
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             import importlib.util
             
             spec = importlib.util.spec_from_file_location("hallucination_test", "hallucination_test.py")
@@ -314,7 +314,7 @@ class TestHallucinationPrevention:
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 
                 # Counter-factual context
                 context = "In this hypothetical world, the sky is neon green."
@@ -340,7 +340,7 @@ class TestPropertyP20Consistency:
         This is the core correctness property for RAG systems.
         """
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -349,7 +349,7 @@ class TestPropertyP20Consistency:
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_p20_db", collection_name="test_p20")
                 
                 # Counter-factual knowledge: Override real-world facts
@@ -385,7 +385,7 @@ class TestPropertyP20Consistency:
         Property P20 (Edge Case): When no relevant context exists, RAG must not hallucinate.
         """
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -394,7 +394,7 @@ class TestPropertyP20Consistency:
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_p20_empty_db", collection_name="test_p20_empty")
                 
                 # Add knowledge about topic A only
@@ -422,7 +422,7 @@ class TestIntegration:
     def test_full_rag_pipeline(self):
         """Test complete RAG workflow: ingest → query → answer with citations."""
         try:
-            from shared.infrastructure.llm.client import MultiProviderClient
+            from shared.infrastructure.llm_client import SimpleLLMClient
             from shared.infrastructure.vector_store import VectorStore
             import importlib.util
             
@@ -438,7 +438,7 @@ class TestIntegration:
                 citation_spec.loader.exec_module(citation_module)
                 
                 # Setup
-                client = MultiProviderClient(provider="openai")
+                client = SimpleLLMClient(provider="openai")
                 store = VectorStore(path="./test_integration_db", collection_name="test_integration")
                 
                 # Phase 1: Ingest

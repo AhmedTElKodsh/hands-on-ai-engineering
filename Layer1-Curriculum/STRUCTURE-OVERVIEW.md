@@ -1,6 +1,22 @@
 # Layer 1 Curriculum - Structure Overview
 
 **Last Updated:** March 8, 2026
+**Status:** ⚠️ **Use LAYER1-FINAL as Canonical Version**
+
+---
+
+## 🚨 IMPORTANT NOTICE
+
+**LAYER1-FINAL is now the canonical curriculum.**
+
+**→ Start Here:** [`../LAYER1-FINAL/README.md`](../LAYER1-FINAL/README.md)
+
+**Why LAYER1-FINAL:**
+- ✅ SQL Week 1 (not Week 26)
+- ✅ Testing Week 2 + threaded (not Week 21)
+- ✅ Security threaded throughout (not Week 23)
+- ✅ 28 weeks (market-calibrated)
+- ✅ Complete templates (COST-LOG, FAILURE-LOG, Git, rubrics)
 
 ---
 
@@ -9,39 +25,38 @@
 ```
 Layer1-Curriculum/
 │
-├── modified-curriculum/              # NEW: Pragmatic GenAI Engineer Curriculum
-│   ├── README.md                     # Start here for overview
+├── LAYER1-FINAL/                     # ✅ CANONICAL — Use This
+│   ├── README.md                     # START HERE: 28-week curriculum
+│   ├── GUIDE-FOR-AI-ASSISTANTS.md    # Teaching methodology
+│   ├── CHECKPOINT-RUBRICS.md         # Phase verification
+│   ├── PROGRESS-TRACKER.md           # Student tracking
+│   ├── COST-LOG.md                   # API cost tracking
+│   ├── FAILURE-LOG.md                # Weekly failure logging
+│   ├── DAY-00-DIAGNOSTIC.md          # Python assessment
+│   ├── WEEK-16-SPECIALIZATION.md     # Specialization tracks
+│   ├── WEEK-21-REFINED.md            # Frontend scope
+│   └── GIT-COLLABORATION-WEEK1.md    # Git workflow
+│
+├── modified-curriculum/              # ⚠️ ARCHIVED — Reference Only
+│   ├── README.md                     # Archive notice
+│   ├── ALIGNMENT-REVIEW.md           # Migration analysis
 │   ├── docs/
-│   │   ├── DOCUMENTATION-INDEX.md    # Navigation hub
-│   │   ├── PRAGMATIC-CURRICULUM-OVERVIEW.md
-│   │   └── WEEK-BY-WEEK-ROADMAP.md
+│   │   ├── DOCUMENTATION-INDEX.md    # Navigation (reference)
+│   │   ├── PRAGMATIC-CURRICULUM-OVERVIEW.md  # Philosophy (reference)
+│   │   └── WEEK-BY-WEEK-ROADMAP.md   # 32-week plan (reference)
 │   └── guides/
-│       ├── TEACHING-METHODOLOGY.md   # For AI assistants
-│       └── CHECKPOINT-SYSTEM.md      # Verify learning
+│       ├── TEACHING-METHODOLOGY.md   # Teaching ladder (preserved)
+│       └── CHECKPOINT-SYSTEM.md      # Checkpoint types (preserved)
 │
-├── docs/                             # ORIGINAL: Core documentation
-│   ├── DAILY-CURRICULUM-PLAN-V4.md   # 40-day plan
+├── docs/                             # ORIGINAL: Core documentation (reference)
+│   ├── DAILY-CURRICULUM-PLAN-V4.md   # 40-day plan (reference)
 │   ├── AI-Engineer-Interview-100-Questions-Answers.md
-│   ├── 4-Day-Plan.md
-│   ├── Extended-Plan.md
-│   ├── CURRICULUM-ENHANCEMENTS-MINI-PROJECTS.md
-│   ├── CONCEPT-COVERAGE-CHECKLIST.md
-│   ├── ENHANCEMENT-IMPLEMENTATION-GUIDE.md
-│   └── archive/
+│   └── ...
 │
-├── guides/                           # ORIGINAL: Teaching & writing guides
-│   ├── GUIDES-INDEX.md
-│   ├── ACTION-FIRST-GUIDE.md
-│   ├── WRITING-STYLE-GUIDE.md
-│   ├── ANALOGY-LIBRARY.md
-│   ├── QUALITY-CHECKLIST.md
-│   ├── VISUAL-ENHANCEMENT-GUIDE.md
-│   ├── LANGUAGE-EXPANSION-GUIDE.md
-│   └── TECHNOLOGY-RESEARCH-GUIDE.md
-│
-├── day-01-hello-llm/                 # Example day structure
-├── day-02-structured-outputs/
-└── ...
+└── guides/                           # ORIGINAL: Teaching guides (reference)
+    ├── GUIDES-INDEX.md
+    ├── ACTION-FIRST-GUIDE.md
+    └── ...
 ```
 
 ---

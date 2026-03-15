@@ -6,7 +6,7 @@ Students implement this by following the hints in the scaffolded chapter.
 """
 
 from shared.infrastructure.vector_store import VectorStore
-from shared.infrastructure.llm.client import MultiProviderClient
+from shared.infrastructure.llm_client import SimpleLLMClient
 import os
 
 
@@ -29,7 +29,7 @@ def ingest_knowledge_base(store: VectorStore, knowledge_base: list[str]) -> None
 def ask_rag(
     question: str,
     store: VectorStore,
-    client: MultiProviderClient,
+    client: SimpleLLMClient,
     limit: int = 2
 ) -> str:
     """
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     
     # 1. Setup our Tools
     print("🔧 Setting up RAG system...")
-    client = MultiProviderClient(provider="openai")
+    client = SimpleLLMClient(provider="openai")
     store = VectorStore(path="./rag_test_db", collection_name="rag_demo")
     
     # 2. Ingest Data (The "Study" Phase)
