@@ -65,7 +65,7 @@ def load_and_clean_csv(file_path: str) -> pd.DataFrame:
     # Hint: Use df.dropna() to drop rows with NaN
     # OR use df.fillna() to fill with appropriate values
     # Return the cleaned DataFrame
-    
+    df.dropna(inplace=True)
     return df
 
 
@@ -82,8 +82,14 @@ def compute_groupby_stats(df: pd.DataFrame) -> Dict:
     # TODO: Group by 'category' column
     # TODO: Calculate sum and mean of 'value' column
     # TODO: Return as dictionary with structure: {"by_category": {"Electronics": {"sum": X, "mean": Y}, ...}}
+    grouped = df.groupby('category')['value']
+    return {
+        "by_category": {
+            cat: {}
+            for cat, 
+        }
+    }
     
-    pass
 
 
 def main_task_1():
